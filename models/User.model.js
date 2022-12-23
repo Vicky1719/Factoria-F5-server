@@ -37,11 +37,6 @@ const userSchema = new Schema(
       default: "user",
     },
 
-    photoUser: {
-      type: String,
-      enum: ["avatar1", "avatar2", "avatar3"],
-    },
-
     favorites: [
       {
         type: Schema.Types.ObjectId,
