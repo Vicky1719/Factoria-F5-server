@@ -5,7 +5,7 @@ const { isAuthenticated } = require("../middlewares/auth.middlewares");
 const User = require("../models/User.model");
 const uploader = require("../middlewares/cloudinary.js")
 
-//GET lista de creaciones
+//GET lista de imagenes
 router.get("/", async (req, res, next) => {
   try {
     const response = await Creation.find();
@@ -48,7 +48,18 @@ router.patch("/:creationId/edit", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//GET mis creaciones
+//GET Detalles de la creacion
+router.get("/:creationId/detail", async (req, res, next) => {
+  const { creationId } = req.params;
+  try {
+    const response = await Creation.findById(creationId);
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//GET mis imagenes
 router.get("/my-creation", isAuthenticated, async (req, res, next) => {
   try {
     const response = await Creation.find({

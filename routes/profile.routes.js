@@ -17,7 +17,6 @@ router.get("/my-profile", isAuthenticated, async (req, res, next) => {
 router.patch("/:userId/edit", isAuthenticated, async (req, res, next) => {
   const userUpdate = {
     firstname: req.body.firstname,
-    lastname: req.body.lastname,
     username: req.body.username,
   };
 

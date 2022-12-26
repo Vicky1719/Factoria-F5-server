@@ -8,10 +8,10 @@ const { isAuthenticated } = require("../middlewares/auth.middlewares");
 
 //POST  registro de usuario
 router.post("/signup", async (req, res, next) => {
-  const { firstname, lastname, username, email, password } = req.body;
+  const { firstname, username, email, password } = req.body;
 
   //1. validaciones de backend
-  if (!firstname || !lastname || !username || !email || !password) {
+  if (!firstname || !username || !email || !password) {
     res
       .status(400)
       .json({ errorMessage: "Debe cumplimentar todos los campos" });
@@ -56,7 +56,6 @@ router.post("/signup", async (req, res, next) => {
 
     const newUser = {
       firstname: firstname,
-      lastame: lastname,
       username: username,
       email: email,
       password: hashPassword,
@@ -64,6 +63,7 @@ router.post("/signup", async (req, res, next) => {
 
     //3. crear usuario
     await User.create(newUser);
+    console.log("patata", newUser)
 
     //4. enviar mensaje de OK al frontend
     res.status(201).json("Usuario registrado correctamente");
@@ -100,7 +100,6 @@ router.post("/login", async (req, res, next) => {
     const payload = {
       _id: foundUser._id,
       firstname: foundUser.firstname,
-      lastname: foundUser.lastname,
       username: foundUser.username,
       email: foundUser.email,
     };
