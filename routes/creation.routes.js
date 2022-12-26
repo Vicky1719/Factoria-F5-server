@@ -75,38 +75,5 @@ router.delete(
 );
 
 
-//PATCH  creaciones favoritas
-router.patch(
-  "/:creationId/favorites",
-  isAuthenticated,
-  async (req, res, next) => {
-    try {
-      await User.findByIdAndUpdate(req.payload._id, {
-        $addToSet: { favorites: req.params.creationId },
-      });
-      res.status(200).json("Creación agregada a favoritos");
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-
-
-//DELETE borrar de favoritos
-router.patch(
-  "/:creationId/delete-favorites",
-  isAuthenticated,
-  async (req, res, next) => {
-    try {
-      await User.findByIdAndUpdate(req.payload._id, {
-        $pull: { favorites: req.params.creationId },
-      });
-      res.status(200).json("Creación borrada de favoritos");
-    } catch (error) {
-      next(error);
-    }
-  }
-);
 
 module.exports = router;

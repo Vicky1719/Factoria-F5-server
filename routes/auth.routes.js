@@ -51,7 +51,7 @@ router.post("/signup", async (req, res, next) => {
       return;
     }
     //2. codificar contraseña
-    const salt = await bcrypt.genSalt(12);
+    const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
     const newUser = {

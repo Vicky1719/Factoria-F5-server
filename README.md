@@ -10,7 +10,7 @@ Clonar el repositorio Factoria-F5-Client y luego instalar las dependencias a tra
 
 ##**Arquitectura del proyecto:**
 
-*La aplicación está desarrollada a partir de dos repositorios. El primero contiene toda la información del servidor y se ejecuta gracias al desarrollo realizado utilizando JavaScript, Node y Express. Toda la información, incluyendo la información de tipo string perteneciente a las imágenes, se almacena en una base de datos NoSQL como lo es Mongo. A su vez se ha optado por utilizar el sistema de protección de contraseñas de "bcrypt" para cumplir con los parámetros actuales de protección y ciberseguridad. Para poder convertir la información pertinente a archivos de imágenes JPG en string se ha utilizado Cloudinary para el servicio de gestión de imágenes en la nube. 
+*La aplicación está desarrollada a partir de dos repositorios. El primero contiene toda la información del servidor y se ejecuta gracias al desarrollo realizado utilizando JavaScript, Node y Express. Toda la información, incluyendo la información de tipo string perteneciente a las imágenes, se almacena en una base de datos NoSQL como lo es Mongo. A su vez se ha optado por utilizar el sistema de protección de contraseñas de "bcrypt" para cumplir con los parámetros actuales de protección y ciberseguridad. Para poder convertir la información pertinente a archivos de imágenes JPG y PNG en string se ha utilizado Cloudinary para el servicio de gestión de imágenes en la nube. 
 *La autenticación del usuario en línea se realizado utilizando el sistema de JSON WEB TOKEN para almacenar la información. Éste sistema es uno de los mas utilizados actualmente y ofrece resultados mucho mas amigables para los usuarios. 
 
 ---
