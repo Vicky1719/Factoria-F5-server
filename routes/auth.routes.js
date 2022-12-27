@@ -3,6 +3,8 @@ const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require("../middlewares/auth.middlewares");
+const isValidPassword = require ("../utils/validation")
+
 
 //rutas de autentificacion (signup y login)
 
@@ -19,12 +21,11 @@ router.post("/signup", async (req, res, next) => {
   }
 
   //validar fuerza de la contraseña
-  const passwordSegurity =
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-  if (passwordSegurity.test(password) === false) {
-    res.status(406).json({
-      errorMessage:
-        "La contraseña debe tener mñinimo 8 caracteres, una mayúscula y un número",
+  if (!isValidPassword(password))  {
+   
+    res.status(406
+      ).json({ errorMessage:
+        "La contraseña debe tener mñinimo 8 caracteres, una mayúscula y un número"
     });
     return;
   }
@@ -63,7 +64,7 @@ router.post("/signup", async (req, res, next) => {
 
     //3. crear usuario
     await User.create(newUser);
-    console.log("patata", newUser)
+    
 
     //4. enviar mensaje de OK al frontend
     res.status(201).json("Usuario registrado correctamente");
@@ -77,6 +78,7 @@ router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
   //1. validaciones de backend
+  
   if (email === "" || password === "") {
     res.status(400).json({ errorMessage: " Debe tener usuario y contraseña" });
     return;
