@@ -7,7 +7,7 @@ const userSchema = new Schema(
       type: String,
     },
 
-      username: {
+    username: {
       type: String,
       trim: true,
       required: true,
@@ -32,13 +32,6 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-
-    favorites: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

@@ -3,12 +3,11 @@ const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require("../middlewares/auth.middlewares");
-const isValidPassword = require ("../utils/validation")
+const isValidPassword = require("../utils/validation");
 
+//(signup y login)
 
-//rutas de autentificacion (signup y login)
-
-//POST  registro de usuario
+//POST  registro usuario
 router.post("/signup", async (req, res, next) => {
   const { firstname, username, email, password } = req.body;
 
@@ -20,32 +19,33 @@ router.post("/signup", async (req, res, next) => {
     return;
   }
 
-  //validar fuerza de la contraseña
-  if (!isValidPassword(password))  {
-   
-    res.status(406
-      ).json({ errorMessage:
-        "La contraseña debe tener mñinimo 8 caracteres, una mayúscula y un número"
-    });
+  //validar la contraseña
+  if (!isValidPassword(password)) {
+    res
+      .status(406)
+      .json({
+        errorMessage:
+          "La contraseña debe tener mñinimo 8 caracteres, una mayúscula y un número",
+      });
     return;
   }
 
   try {
-    // Validar 4 caracteres minimo para el usuario
+    // Validar usuario
     if (username.length < 4) {
       res.status(400).json({
         errorMessage: "El nombre de usuario debe tener mínimo 4 caracteres",
       });
       return;
     }
-    // Validacion Email unico
+    // Validar Email
     const foundEmail = await User.findOne({ email: email });
     if (foundEmail !== null) {
       res.status(406).json({ errorMessage: "Email ya registrado" });
       return;
     }
 
-    // Validacion User unico
+    // Validacion Usuario
     const foundUser = await User.findOne({ username: username });
     if (foundUser !== null) {
       res.status(406).json({ errorMessage: "Usuario ya registrado." });
@@ -64,7 +64,6 @@ router.post("/signup", async (req, res, next) => {
 
     //3. crear usuario
     await User.create(newUser);
-    
 
     //4. enviar mensaje de OK al frontend
     res.status(201).json("Usuario registrado correctamente");
@@ -73,12 +72,12 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-//POST validación de credenciales del login
+//POST validación  login
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
   //1. validaciones de backend
-  
+
   if (email === "" || password === "") {
     res.status(400).json({ errorMessage: " Debe tener usuario y contraseña" });
     return;
@@ -98,7 +97,7 @@ router.post("/login", async (req, res, next) => {
       return;
     }
 
-    //2. creación de sesión (TOKEN) y enviarlo al cliente
+    //2. creación de sesión (TOKEN)
     const payload = {
       _id: foundUser._id,
       firstname: foundUser.firstname,

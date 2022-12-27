@@ -3,9 +3,9 @@ const Creation = require("../models/Creation.model");
 const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require("../middlewares/auth.middlewares");
 const User = require("../models/User.model");
-const uploader = require("../middlewares/cloudinary.js")
+const uploader = require("../middlewares/cloudinary.js");
 
-//GET lista de imagenes
+//GET lista de imágenes
 router.get("/", async (req, res, next) => {
   try {
     const response = await Creation.find();
@@ -15,24 +15,29 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//POST crear creacion
-router.post("/create", isAuthenticated, uploader.single("image"), async (req, res, next) => {
-  const newCreation = {
-    name: req.body.name,
-    image: req.body.image,
-    user: req.payload._id,
-  };
+//POST crear imagen
+router.post(
+  "/create",
+  isAuthenticated,
+  uploader.single("image"),
+  async (req, res, next) => {
+    const newCreation = {
+      name: req.body.name,
+      image: req.body.image,
+      user: req.payload._id,
+    };
 
-  try {
-    const response = await Creation.create(newCreation);
+    try {
+      const response = await Creation.create(newCreation);
 
-    res.status(201).json("Nueva creacion creada");
-  } catch (error) {
-    next(error);
+      res.status(201).json("Nueva imagen creada");
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-//PATH Edita una creacion
+//PATH Edita una imagen
 router.patch("/:creationId/edit", isAuthenticated, async (req, res, next) => {
   const creationUpdate = {
     name: req.body.name,
@@ -42,13 +47,13 @@ router.patch("/:creationId/edit", isAuthenticated, async (req, res, next) => {
 
   try {
     await Creation.findByIdAndUpdate(req.params.creationId, creationUpdate);
-    res.status(200).json("Creación actualizada");
+    res.status(200).json("Imagen actualizada");
   } catch (error) {
     next(error);
   }
 });
 
-//GET Detalles de la creacion
+//GET Detalles de la imagen
 router.get("/:creationId/detail", async (req, res, next) => {
   const { creationId } = req.params;
   try {
@@ -59,7 +64,7 @@ router.get("/:creationId/detail", async (req, res, next) => {
   }
 });
 
-//GET mis imagenes
+//GET mis imágenes
 router.get("/my-creation", isAuthenticated, async (req, res, next) => {
   try {
     const response = await Creation.find({
@@ -71,20 +76,18 @@ router.get("/my-creation", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//DELETE Borrar creacion
+//DELETE Borrar imagen
 router.delete(
   "/:creationId/delete",
   isAuthenticated,
   async (req, res, next) => {
     try {
       await Creation.findByIdAndDelete(req.params.creationId);
-      res.status(200).json("Creación borrada");
+      res.status(200).json("Imagen borrada");
     } catch (error) {
       next(error);
     }
   }
 );
-
-
 
 module.exports = router;
